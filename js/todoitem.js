@@ -16,7 +16,7 @@ export default class ToDoItem {
     return this._item;
   }
 
-  set(item) {
+  setItem(item) {
     this._item = item;
   }
 }

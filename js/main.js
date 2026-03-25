@@ -28,7 +28,7 @@ const initApp = () => {
 
 const refreshThePage = () => {
   clearListDisplay();
-  // renderList();
+  renderList();
   // clearItemEntryField();
   // setFocusItemEntry();
 };
@@ -62,7 +62,7 @@ const buildListItem = (item) => {
   check.id = item.getId();
   check.tabIndex = 0;
 
-  // ADDCLICKLISTNERTOCHECKBOX(CHECK);
+  addClickListenerCheckbox(check);
 
   const label = document.createElement("label");
   label.htmlFor = item.getId();
