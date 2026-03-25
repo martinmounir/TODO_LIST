@@ -19,18 +19,41 @@ const initApp = () => {
     processSubmission();
   });
 
+  const clearItems = document.getElementById("clearItems");
+  clearItems.addEventListener("click", (event) => {
+    const list = toDoList.getList();
+    if (list.length) {
+      const confirmed = confirm(
+        "Are you sure you want to clear the entire list?",
+      );
+      if (confirmed) {
+        toDoList.clearList();
+        updatePersistentData(toDoList.getList());
+        refreshThePage();
+      }
+    }
+  });
+
   // PROCEDURAL
-
-  // LOAD LIST OBJECT
-
+  loadListObject();
   refreshThePage();
 };
 
 const refreshThePage = () => {
   clearListDisplay();
   renderList();
-  // clearItemEntryField();
-  // setFocusItemEntry();
+  clearItemEntryField();
+  setFocusOnItemEntry();
+};
+
+const loadListObject = () => {
+  const storedList = localStorage.getItem("myToDoList");
+  if (typeof storedList !== "string") return;
+  const parsedList = JSON.parse(storedList);
+  parsedList.forEach((itemobj) => {
+    const newToDoItem = createNewItem(itemobj._id, itemobj._item);
+    toDoList.addItemToList(newToDoItem);
+  });
 };
 
 const clearListDisplay = () => {
@@ -76,11 +99,17 @@ const buildListItem = (item) => {
 const addClickListenerCheckbox = (checkbox) => {
   checkbox.addEventListener("click", (event) => {
     toDoList.removeItemFromList(checkbox.id);
-    // TODO: REMOVE FROM PERSISTENT DATA.
+
+    updatePersistentData(toDoList.getList());
+
     setTimeout(() => {
       refreshThePage();
     }, 1000);
   });
+};
+
+const updatePersistentData = (listArray) => {
+  localStorage.setItem("myToDoList", JSON.stringify(listArray));
 };
 
 const clearItemEntryField = () => {
@@ -97,8 +126,7 @@ const processSubmission = () => {
   const nextItemId = calcNextItemId();
   const toDoItem = createNewItem(nextItemId, newEntryText);
   toDoList.addItemToList(toDoItem);
-
-  // TODO: UPDATE PERSISTENT DATA.
+  updatePersistentData(toDoList.getList());
   refreshThePage();
 };
 
