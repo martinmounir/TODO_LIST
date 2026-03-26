@@ -6,12 +6,6 @@ This project goes beyond a basic to-do list by focusing on **real-world practice
 
 ---
 
-## 🚀 Live Demo
-
-> (Add your live demo link here if deployed)
-
----
-
 ## 📌 Features
 
 - ✅ Add, edit, and delete tasks
